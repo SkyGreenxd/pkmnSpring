@@ -10,6 +10,8 @@ import java.util.UUID;
 
 @Repository
 public interface CardEntityRepository extends JpaRepository<CardEntity, UUID> {
+    <S extends CardEntity> S save(S entity);
+
     Optional<CardEntity> findByName(String name);
 
     Optional<CardEntity> findById(UUID id);

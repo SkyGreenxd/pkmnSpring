@@ -28,24 +28,14 @@ public class StudentController {
     }
 
     @GetMapping("")
-    public ResponseEntity<String> getStudentByFullName(@RequestBody StudentEntity student) {
-        List<StudentEntity> students = studentService.getStudentByFullName(student);
-
-        if (students.size() > 1) {
-            throw new IllegalArgumentException("Найдено несколько пользователей с такими ФИО.");
-        }
-        if (students.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Студент не найден.");
-        }
-        return ResponseEntity.ok("Студент найден: " + students.get(0).toString());
+    public Optional<StudentEntity> getUserByFullName(@RequestBody StudentEntity student) {
+        return studentService.getStudentByFIO(student);
     }
-
 
     @PostMapping("")
     public ResponseEntity<String> createStudent(@RequestBody StudentEntity student) {
-        List<StudentEntity> students = studentService.getStudentByFullName(student);
-        if (!students.isEmpty()) {
-            return ResponseEntity.badRequest().body("Студент с такими ФИО уже существует.");
+        if (studentService.getStudentByFIO(student).isPresent()) {
+            return ResponseEntity.badRequest().body("Такой студент уже существует.");
         }
         return ResponseEntity.ok(studentService.save(student).toString());
     }

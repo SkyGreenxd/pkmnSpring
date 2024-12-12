@@ -32,18 +32,24 @@ public class CardEntity implements Serializable {
     @UuidGenerator
     private UUID id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="stage")
+    private PokemonStage pokemonStage;
+
     @Column(name="name")
     private String name;
 
     @Column(columnDefinition = "integer")
     private int hp;
 
-    @Column(name="card_number")
-    private String number;
+    @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "evolves_from_id")
+    private CardEntity evolvesFrom;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="stage")
-    private PokemonStage pokemonStage;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "attack_skills")
+    @JsonDeserialize(using = SkillDeserializer.class)
+    private List<AttackSkill> skills;
 
     @Column(name="retreat_cost")
     private String retreatCost;
@@ -70,14 +76,10 @@ public class CardEntity implements Serializable {
     @JoinColumn(name = "pokemon_owner_id")
     private StudentEntity pokemonOwner;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "attack_skills")
-    @JsonDeserialize(using = SkillDeserializer.class)
-    private List<AttackSkill> skills;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "evolves_from_id")
-    private CardEntity evolvesFrom;
+
+    @Column(name="card_number")
+    private String number;
 
     public static CardEntity fromCardToEntity(Card card) {
         return CardEntity.builder()
@@ -96,5 +98,4 @@ public class CardEntity implements Serializable {
                 .number(card.getNumber())
                 .build();
     }
-
 }

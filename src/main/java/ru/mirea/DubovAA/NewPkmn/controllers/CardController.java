@@ -42,26 +42,21 @@ public class CardController {
         return cardService.getCardById(id);
     }
 
-    @PostMapping("")
-    public ResponseEntity<String> createCard(@RequestBody CardEntity card) {
-        if (card.getPokemonOwner() == null) {
+    @PostMapping
+    public ResponseEntity<String> createCars(@RequestBody CardEntity card) {
+        if (card.getPokemonOwner() == null){
             return ResponseEntity.badRequest().body("Карте нужен владелец.");
         }
-
-        CardEntity savedCard = cardService.saveCard(card);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Карта успешно создана.");
+        return ResponseEntity.ok(cardService.saveCard(card).toString());
     }
 
     @GetMapping("/card-image")
-    public ResponseEntity<Void> getCardImage(@RequestBody CardEntity card) {
+    public ResponseEntity<String> getCardImage(@RequestBody CardEntity card) {
         try {
             String imageUrl = pokemonTcgService.getCardImageUrl(card.getName(), card.getNumber());
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(URI.create(imageUrl));
-            return new ResponseEntity<>(headers, HttpStatus.FOUND);
+            return ResponseEntity.status(HttpStatus.OK).body(imageUrl);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Card image not found.");
         }
     }
 }

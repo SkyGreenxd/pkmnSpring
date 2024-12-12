@@ -19,19 +19,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentEntity> getStudentByFullName(StudentEntity studentEntity) {
-        List<StudentEntity> students = studentDao.getStudentByFullName(studentEntity);
-
-        if (students.isEmpty()) {
-            // Если студентов не найдено, возвращаем пустой список
-            return students;
-        } else if (students.size() > 1) {
-            // Если найдено больше одного студента, выбрасываем исключение
-            throw new IllegalArgumentException("Найдено больше одного студента с указанным ФИО: " + studentEntity);
-        } else {
-            // Если найден ровно один студент, возвращаем его в списке
-            return students;
+    public Optional<StudentEntity> getStudentByFIO(StudentEntity student) {
+        List<StudentEntity> students = studentDao.getStudentsByFIO(student);
+        if (students.size() > 1) {
+            throw new RuntimeException("More than one user found with the provided full name.");
         }
+        return students.stream().findFirst();
     }
 
 

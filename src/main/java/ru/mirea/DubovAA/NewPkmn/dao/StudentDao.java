@@ -16,7 +16,7 @@ public class StudentDao {
         return studentRep.findByGroup(group);
     }
 
-    public List<StudentEntity> getStudentByFullName(StudentEntity student) {
+    public List<StudentEntity> getStudentsByFIO(StudentEntity student) {
         return studentRep.findByFirstNameAndSurNameAndFamilyName(student.getFirstName(), student.getSurName(), student.getFamilyName());
     }
 

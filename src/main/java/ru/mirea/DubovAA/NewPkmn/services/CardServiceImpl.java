@@ -40,7 +40,7 @@ public class CardServiceImpl implements CardService {
         }
         if(card.getPokemonOwner() != null){
             if(studentDao.studentExists(card.getPokemonOwner())){
-                card.setPokemonOwner(studentDao.getStudentByFullName(card.getPokemonOwner()).getFirst());
+                card.setPokemonOwner(studentDao.getStudentsByFIO(card.getPokemonOwner()).getFirst());
             }
             else {
                 card.setPokemonOwner(studentDao.saveStudent(card.getPokemonOwner()));
@@ -55,7 +55,6 @@ public class CardServiceImpl implements CardService {
                 card.setEvolvesFrom(cardDao.saveCard(card.getEvolvesFrom()));
             }
         }
-
         return cardDao.saveCard(card);
     }
 
