@@ -19,7 +19,7 @@ public class Card implements Serializable {
     private int hp;
     private EnergyType pokemonType;
     private Card evolvesFrom;
-    private List <AttackSkill> skills;
+    private List<AttackSkill> skills;
     private EnergyType weaknessType;
     private EnergyType resistanceType;
     private String retreatCost;

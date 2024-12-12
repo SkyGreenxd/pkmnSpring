@@ -45,4 +45,13 @@ public class StudentEntity implements Serializable {
                 .group(entity.getGroup())
                 .build();
     }
+    @Override
+    public String toString() {
+        return "Student{" +
+                "firstName='" + firstName + '\'' +
+                ", surName='" + surName + '\'' +
+                ", familyName='" + familyName + '\'' +
+                ", group='" + group + '\'' +
+                '}';
+    }
 }

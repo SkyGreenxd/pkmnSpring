@@ -32,7 +32,7 @@ public class StudentController {
         return studentService.getStudentByFIO(student);
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<String> createStudent(@RequestBody StudentEntity student) {
         if (studentService.getStudentByFIO(student).isPresent()) {
             return ResponseEntity.badRequest().body("Такой студент уже существует.");

@@ -1,21 +1,17 @@
 package ru.mirea.DubovAA.NewPkmn.entities;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.type.SqlTypes;
-import ru.mirea.DubovAA.NewPkmn.converters.SkillDeserializer;
 import ru.mirea.DubovAA.NewPkmn.models.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+
+import static org.hibernate.type.SqlTypes.JSON;
 
 @Entity
 @Table(name = "cards")
@@ -46,9 +42,8 @@ public class CardEntity implements Serializable {
     @JoinColumn(name = "evolves_from_id")
     private CardEntity evolvesFrom;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "attack_skills")
-    @JsonDeserialize(using = SkillDeserializer.class)
+    @JdbcTypeCode(JSON)
+    @Column(name="attack_skills", columnDefinition = "JSON")
     private List<AttackSkill> skills;
 
     @Column(name="retreat_cost")
@@ -76,26 +71,24 @@ public class CardEntity implements Serializable {
     @JoinColumn(name = "pokemon_owner_id")
     private StudentEntity pokemonOwner;
 
-
-
     @Column(name="card_number")
     private String number;
 
-    public static CardEntity fromCardToEntity(Card card) {
-        return CardEntity.builder()
-                .pokemonStage(card.getPokemonStage())
-                .name(card.getName())
-                .hp(card.getHp())
-                .pokemonType(card.getPokemonType())
-                .evolvesFrom(card.getEvolvesFrom() != null ? fromCardToEntity(card.getEvolvesFrom()) : null)
-                .skills(card.getSkills()) // Убедитесь, что формат списка AttackSkill совместим
-                .weaknessType(card.getWeaknessType())
-                .resistanceType(card.getResistanceType())
-                .retreatCost(card.getRetreatCost())
-                .gameSet(card.getGameSet())
-                .regulationMark(card.getRegulationMark())
-                .pokemonOwner(card.getPokemonOwner() != null ? StudentEntity.fromStudentToEntity(card.getPokemonOwner()) : null)
-                .number(card.getNumber())
-                .build();
+    @Override
+    public String toString() {
+        return "Card{" +
+                "pokemonStage=" + pokemonStage +
+                ", name='" + name + '\'' +
+                ", hp=" + hp +
+                ", evolvesFrom=" + evolvesFrom +
+                ", skills=" + skills +
+                ", pokemonType=" + pokemonType +
+                ", weaknessType=" + weaknessType +
+                ", resistanceType=" + resistanceType +
+                ", retreatCost='" + retreatCost + '\'' +
+                ", gameSet='" + gameSet + '\'' +
+                ", regulationMark=" + regulationMark +
+                ", owner=" + ((pokemonOwner != null) ? pokemonOwner.toString() : pokemonOwner)+
+                '}';
     }
 }

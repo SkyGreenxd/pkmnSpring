@@ -2,7 +2,6 @@ package ru.mirea.DubovAA.NewPkmn.controllers;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,6 @@ import ru.mirea.DubovAA.NewPkmn.entities.StudentEntity;
 import ru.mirea.DubovAA.NewPkmn.rest.PokemonTcgService;
 import ru.mirea.DubovAA.NewPkmn.services.CardService;
 
-import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +41,7 @@ public class CardController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createCars(@RequestBody CardEntity card) {
+    public ResponseEntity<String> createCard(@RequestBody CardEntity card) {
         if (card.getPokemonOwner() == null){
             return ResponseEntity.badRequest().body("Карте нужен владелец.");
         }
