@@ -30,14 +30,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET,
                                 "/api/v1/cards",
                                 "/api/v1/cards/{name}",
-                                "/api/v1/cards/owner",
-                                "/api/v1/cards/card-image")
+                                "/api/v1/cards/owner")
                         .permitAll()
-
-                        .requestMatchers(HttpMethod.GET,
-                                "/api/v1/users/**",
-                                "/api/v1/cards/**")
-                        .hasAnyRole("USER", "ADMIN")
 
                         .requestMatchers(HttpMethod.POST,
                                 "/api/v1/cards",
