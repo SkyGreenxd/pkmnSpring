@@ -39,7 +39,6 @@ public class SecurityConfiguration {
                                 ).hasRole("ADMIN")
                         .requestMatchers("/api/v1/auth/register").permitAll()
                         .requestMatchers("/api/v1/auth/**").authenticated()
-                        .requestMatchers("/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
         );
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
